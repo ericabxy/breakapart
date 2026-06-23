@@ -12,7 +12,7 @@ for x = 0, 923, 13 do quads[i % SEGMENTS] = love.graphics.newQuad( x, 0, 13, 13,
 local missile = sprite:new{
   texture = love.graphics.newImage('share/titmouse001_sprites_missile.png'),
   quad = quads[0],
-  time_left = 4,
+  time_left = 1,
   width = 13,
   height = 13,
   angle = 0,
@@ -22,7 +22,7 @@ local missile = sprite:new{
 
 function missile:update(dt)
   self.time_left = self.time_left - dt
-  local speed = 500
+  local speed = 200
   self.x = self.x + math.cos(self.angle) * speed * dt
   self.y = self.y + math.sin(self.angle) * speed * dt
 end

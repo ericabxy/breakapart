@@ -20,7 +20,7 @@ local ship = sprite:new{
   height = 15,
   speed_x = 0,
   speed_y = 0,
-  radius = 15,
+  radius = 8,
   angle = 0,
   ox = -9,
   oy = -9,
@@ -36,9 +36,13 @@ function ship:control(dt)
   if self.controller_number < 1 or self.controller_number > 8 then return end
   if love.joystick.isDown(self.controller_number, RETRO_DEVICE_ID_JOYPAD_UP) then
     if not self.sfx_rocket:isPlaying() then love.audio.play(self.sfx_rocket) end
+    if math.floor(love.timer.getTime() * 30) % 2 == 0 then self.texture = gfx_bad_ships.texture1
+    else self.texture = gfx_bad_ships.texture2
+    end
     self:accelerate(dt)
   else
     if self.sfx_rocket:isPlaying() then love.audio.stop(self.sfx_rocket) end
+    self.texture = gfx_bad_ships.texture2
   end
   if love.joystick.isDown(self.controller_number, RETRO_DEVICE_ID_JOYPAD_LEFT) then
     self:rotate(-dt)
@@ -75,7 +79,7 @@ function ship:fire()
 end
 
 function ship:rotate(dt)
-  local turn_speed = 10
+  local turn_speed = 7.5
   self.angle = self.angle + turn_speed * dt
   self.angle = self.angle % FULLCIRCLE
   self.quad = self.quads[math.floor(self.angle * SEGLENGTH)]
@@ -93,11 +97,13 @@ function ship:new(o)
   setmetatable(o, self)
   self.__index = self
   -- Initialization.
-  o.missiles = {}
   o.sfx_rocket = love.audio.newSource('share/master484_side_blaster_sfx8.wav', 'static')
   o.sfx_rocket:setLooping(true)
+  o.sfx_rocket:setVolume(0.33)
   o.sfx_missile = love.audio.newSource('share/master484_side_blaster_sfx4.wav', 'static')
+  o.sfx_missile:setVolume(0.33)
   o.sfx_explode = love.audio.newSource('share/master484_side_blaster_sfx26.wav', 'static')
+  o.sfx_explode:setVolume(0.33)
   return o
 end
 

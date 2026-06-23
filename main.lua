@@ -1,11 +1,12 @@
 local _ = require('src.const_libretro')
 local sfx_background_music = require('src.sfx_background_music')
 local asteroid = require('src.asteroid')
-local explosion = require('src.explosion')
 local ship = require('src.ship')
 local window = require('src.window')
 
-local asteroids_respawn_timer = 0
+local sfx_asteroid_explode = love.audio.newSource('share/master484_side_blaster_sfx14.wav', 'static')
+sfx_asteroid_explode:setVolume(.25)
+local asteroids_respawn_timer = 2
 local asteroids = {}
 local bullets = {}
 local controllers = {}
@@ -38,7 +39,12 @@ function love.update(dt)
     for asteroid_i = #asteroids, 1, -1 do
       local this_asteroid = asteroids[asteroid_i]
       if this_bullet:is_touching(this_asteroid) then
+        love.audio.stop(sfx_asteroid_explode)
+        love.audio.play(sfx_asteroid_explode)
         table.remove(bullets, bullet_i)
+        local asteroid1, asteroid2 = this_asteroid:explode()
+        table.insert(asteroids, asteroid1)
+        table.insert(asteroids, asteroid2)
         table.remove(asteroids, asteroid_i)
         break
       end
