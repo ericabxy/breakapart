@@ -34,18 +34,14 @@ function love.update(dt)
 end
 
 function love.draw()
-  for y = -1, 1 do
-    for x = -1, 1 do
-      for _, o in ipairs(asteroids) do o:draw(x * window.width, y * window.height) end
-      for _, o in ipairs(bullets) do o:draw(x * window.width, y * window.height) end
-      for _, o in pairs(ships) do o:draw(x * window.width, y * window.height) end
-    end
-  end
+  window:draw_objects_wrapped(asteroids)
+  window:draw_objects_wrapped(bullets)
+  window:draw_objects_wrapped(ships)
 end
 
 function love.joystickpressed(n, b)
   n, b = n + 1, b + 1
   if b == RETRO_DEVICE_ID_JOYPAD_START and not ships[n] then
-    ships[n] = ship:new{ controller_number = n, x = window.width / 2, y = window.height / 2 }
+    table.insert(ships, ship:new{ controller_number = n, x = window.width / 2, y = window.height / 2 })
   end
 end
