@@ -1,5 +1,6 @@
 local _ = require('src.const_libretro')
 local gfx_bad_ships = require('src.gfx_bad_ships')
+local explosion = require('src.explosion')
 local missile = require('src.missile')
 local sprite = require('src.sprite')
 
@@ -49,6 +50,17 @@ function ship:control(dt)
   end
 end
 
+function ship:explode()
+  if self.sfx_rocket:isPlaying() then love.audio.stop(self.sfx_rocket) end
+  love.audio.stop(self.sfx_explode)
+  love.audio.play(self.sfx_explode)
+  self.destroyed = true
+  return explosion:new{
+    x = self.x,
+    y = self.y
+  }
+end
+
 function ship:fire()
   if self.cooldown_timer >= TIMERLIMIT then
     love.audio.stop(self.sfx_missile)
@@ -85,6 +97,7 @@ function ship:new(o)
   o.sfx_rocket = love.audio.newSource('share/master484_side_blaster_sfx8.wav', 'static')
   o.sfx_rocket:setLooping(true)
   o.sfx_missile = love.audio.newSource('share/master484_side_blaster_sfx4.wav', 'static')
+  o.sfx_explode = love.audio.newSource('share/master484_side_blaster_sfx26.wav', 'static')
   return o
 end
 

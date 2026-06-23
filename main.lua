@@ -1,4 +1,5 @@
 local _ = require('src.const_libretro')
+local sfx_background_music = require('src.sfx_background_music')
 local asteroid = require('src.asteroid')
 local explosion = require('src.explosion')
 local ship = require('src.ship')
@@ -25,8 +26,9 @@ function love.update(dt)
       local o2 = ships[y]
       if o:is_touching(o2) then
         controllers[o2.controller_number] = nil
-        table.insert(explosions, explosion:new{ x = o2.x, y = o2.y })
+        table.insert(explosions, o2:explode( ))
         table.remove(ships, y)
+        if #ships < 1 then sfx_background_music:off() end
       end
     end
   end
@@ -67,6 +69,7 @@ end
 function love.joystickpressed(n, b)
   n, b = n + 1, b + 1
   if b == RETRO_DEVICE_ID_JOYPAD_START and not controllers[n] then
+    sfx_background_music:on()
     table.insert(ships, ship:new{ controller_number = n, x = window.width / 2, y = window.height / 2 })
     controllers[n] = ships[#ships]
   end
