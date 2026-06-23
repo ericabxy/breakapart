@@ -14,6 +14,8 @@ local meteor_02_xlarge = love.graphics.newImage('share/carlosalface_meteor-02-xl
 -- Class table.
 local asteroid = sprite:new{
   texture = meteor_01_large,
+  width = 40,
+  height = 40,
   ox = -20,
   oy = -20,
   angle = 0,

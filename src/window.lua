@@ -12,6 +12,7 @@ function window:draw_objects_wrapped(t)
       for _, o in ipairs(t) do
         if type(o) == 'table' and type(o.draw) == 'function' then
           o:draw(xoffset, yoffset)
+          o:paint(xoffset, yoffset)
         end
       end
     end

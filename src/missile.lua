@@ -13,7 +13,11 @@ local missile = sprite:new{
   texture = love.graphics.newImage('share/titmouse001_sprites_missile.png'),
   quad = quads[0],
   time_left = 4,
+  width = 13,
+  height = 13,
   angle = 0,
+  ox = -7,
+  oy = -7
 }
 
 function missile:update(dt)

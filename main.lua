@@ -1,10 +1,12 @@
 local _ = require('src.const_libretro')
 local asteroid = require('src.asteroid')
+local explosion = require('src.explosion')
 local ship = require('src.ship')
 local window = require('src.window')
 
 local asteroids = {}
 local bullets = {}
+local explosions = {}
 local ships = {}
 
 function love.load()
@@ -18,12 +20,24 @@ function love.update(dt)
     local o = asteroids[x]
     o:update(dt)
     o:wrap(window)
+    for y = #ships, 1, -1 do
+      local o2 = ships[y]
+      if o:is_circle_touching_circle(o2) then
+        table.insert(explosions, explosion:new{ x = o2.x, y = o2.y })
+        table.remove(ships, y)
+      end
+    end
   end
   for x = #bullets, 1, -1 do
     local o = bullets[x]
     o:update(dt)
     o:wrap(window)
     if o.time_left <= 0 then table.remove(bullets, x) end
+  end
+  for x = #explosions, 1, -1 do
+    local o = explosions[x]
+    o:update(dt)
+    if o.animation_finished then table.remove(explosions, x) end
   end
   for _, o in ipairs(ships) do
     local bullet = o:control(dt)
@@ -36,6 +50,7 @@ end
 function love.draw()
   window:draw_objects_wrapped(asteroids)
   window:draw_objects_wrapped(bullets)
+  window:draw_objects_wrapped(explosions)
   window:draw_objects_wrapped(ships)
 end
 

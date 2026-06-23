@@ -11,14 +11,18 @@ local TIMERLIMIT = 0.5
 -- Class table.
 local ship = sprite:new{
   controller_number = 0,
-  texture = gfx_bad_ships.texture_b,
+  texture = gfx_bad_ships.texture2,
   quad = gfx_bad_ships.ship1[1],
   quads = gfx_bad_ships.ship1,
   cooldown_timer = TIMERLIMIT,
+  width = 15,
+  height = 15,
   speed_x = 0,
   speed_y = 0,
   radius = 15,
   angle = 0,
+  ox = -9,
+  oy = -9,
 }
 
 function ship:accelerate(dt)

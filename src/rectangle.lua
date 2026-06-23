@@ -11,8 +11,8 @@ function rectangle:right() return self.x + self.width end
 function rectangle:bottom() return self.y + self.height end
 
 function rectangle:paint()
-  love.graphics.rectangle('line', self.x, self.y, self.width, self.height)
-  love.graphics.ellipse('line', self.x, self.y, self.width, self.height)
+  --love.graphics.rectangle('line', self.x, self.y, self.width, self.height)
+  love.graphics.ellipse('line', self.x, self.y, self.width / 2, self.height / 2)
 end
 
 function rectangle:new(o)

@@ -26,6 +26,10 @@ function sprite:draw(ox, oy)
   end
 end
 
+function sprite:is_circle_touching_circle(o)
+  return (self.x - o.x) ^ 2 + (self.y - o.y) ^ 2 <= (self.width / 2 + o.width / 2) ^ 2
+end
+
 function sprite:wrap(rect)
   -- TODO: Take into account rect.x and rect.y.
   self.x = self.x % rect.width

@@ -1,6 +1,6 @@
 local gfx_bad_ships = {
-  texture_a = love.graphics.newImage('share/titmouse001_bad_ships_a.png'),
-  texture_b = love.graphics.newImage('share/titmouse001_bad_ships_b.png'),
+  texture1 = love.graphics.newImage('share/titmouse001_bad_ships_a.png'),
+  texture2 = love.graphics.newImage('share/titmouse001_bad_ships_b.png'),
   quads = {},
   ship1 = {},
   ship2 = {},
@@ -17,7 +17,7 @@ for x = 1, 72 do
   gfx_bad_ships.ship2[n % 72] = gfx_bad_ships.quads[x + 72]
   n = n + 1
 end
-for n = 145, 154 do table.insert(gfx_bad_ships.explosion1, gfx_bad_ships.quads[n]) end
-for n = 155, 164 do table.insert(gfx_bad_ships.explosion2, gfx_bad_ships.quads[n]) end
+for n = 145, 153 do table.insert(gfx_bad_ships.explosion1, gfx_bad_ships.quads[n]) end
+for n = 155, 163 do table.insert(gfx_bad_ships.explosion2, gfx_bad_ships.quads[n]) end
 
 return gfx_bad_ships
