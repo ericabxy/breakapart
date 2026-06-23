@@ -23,7 +23,7 @@ function love.update(dt)
     o:wrap(window)
     for y = #ships, 1, -1 do
       local o2 = ships[y]
-      if o:is_circle_touching_circle(o2) then
+      if o:is_touching(o2) then
         controllers[o2.controller_number] = nil
         table.insert(explosions, explosion:new{ x = o2.x, y = o2.y })
         table.remove(ships, y)
@@ -37,7 +37,7 @@ function love.update(dt)
     if this_bullet.time_left <= 0 then table.remove(bullets, bullet_i) end
     for asteroid_i = #asteroids, 1, -1 do
       local this_asteroid = asteroids[asteroid_i]
-      if this_bullet:is_circle_touching_circle(this_asteroid) then
+      if this_bullet:is_touching(this_asteroid) then
         table.remove(bullets, bullet_i)
         table.remove(asteroids, asteroid_i)
         break

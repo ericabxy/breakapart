@@ -26,7 +26,8 @@ function sprite:draw(ox, oy)
   end
 end
 
-function sprite:is_circle_touching_circle(o)
+-- Simple circle-circle collision detection.
+function sprite:is_touching(o)
   return (self.x - o.x) ^ 2 + (self.y - o.y) ^ 2 <= (self.width / 2 + o.width / 2) ^ 2
 end
 

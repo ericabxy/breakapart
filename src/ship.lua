@@ -34,7 +34,10 @@ end
 function ship:control(dt)
   if self.controller_number < 1 or self.controller_number > 8 then return end
   if love.joystick.isDown(self.controller_number, RETRO_DEVICE_ID_JOYPAD_UP) then
+    if not self.sfx_rocket:isPlaying() then love.audio.play(self.sfx_rocket) end
     self:accelerate(dt)
+  else
+    if self.sfx_rocket:isPlaying() then love.audio.stop(self.sfx_rocket) end
   end
   if love.joystick.isDown(self.controller_number, RETRO_DEVICE_ID_JOYPAD_LEFT) then
     self:rotate(-dt)
@@ -48,6 +51,8 @@ end
 
 function ship:fire()
   if self.cooldown_timer >= TIMERLIMIT then
+    love.audio.stop(self.sfx_missile)
+    love.audio.play(self.sfx_missile)
     self.cooldown_timer = 0
     return missile:new{
       angle = self.angle,
@@ -77,6 +82,9 @@ function ship:new(o)
   self.__index = self
   -- Initialization.
   o.missiles = {}
+  o.sfx_rocket = love.audio.newSource('share/master484_side_blaster_sfx8.wav', 'static')
+  o.sfx_rocket:setLooping(true)
+  o.sfx_missile = love.audio.newSource('share/master484_side_blaster_sfx4.wav', 'static')
   return o
 end
 
