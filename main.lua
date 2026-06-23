@@ -5,6 +5,7 @@ local explosion = require('src.explosion')
 local ship = require('src.ship')
 local window = require('src.window')
 
+local asteroids_respawn_timer = 0
 local asteroids = {}
 local bullets = {}
 local controllers = {}
@@ -12,9 +13,6 @@ local explosions = {}
 local ships = {}
 
 function love.load()
-  asteroids[1] = asteroid:new{ x = 50, y = 50 }
-  asteroids[2] = asteroid:new{ x = window.width - 50, y = 50 }
-  asteroids[3] = asteroid:new{ x = window.width / 2 , y = window.height - 50 }
 end
 
 function love.update(dt)
@@ -56,6 +54,16 @@ function love.update(dt)
     if bullet then table.insert(bullets, bullet) end
     o:update(dt)
     o:wrap(window)
+  end
+  if #asteroids < 1 then
+    if asteroids_respawn_timer < 2 then
+      asteroids_respawn_timer = asteroids_respawn_timer + dt
+    else
+      asteroids[1] = asteroid:new{ x = 50, y = 50 }
+      asteroids[2] = asteroid:new{ x = window.width - 50, y = 50 }
+      asteroids[3] = asteroid:new{ x = window.width / 2 , y = window.height - 50 }
+      asteroids_respawn_timer = 0
+    end
   end
 end
 
