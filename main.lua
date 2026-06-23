@@ -18,16 +18,16 @@ function love.load()
 end
 
 function love.update(dt)
-  for x = #asteroids, 1, -1 do
-    local o = asteroids[x]
-    o:update(dt)
-    o:wrap(window)
-    for y = #ships, 1, -1 do
-      local o2 = ships[y]
-      if o:is_touching(o2) then
-        controllers[o2.controller_number] = nil
-        table.insert(explosions, o2:explode( ))
-        table.remove(ships, y)
+  for asteroid_i = #asteroids, 1, -1 do
+    local this_asteroid = asteroids[asteroid_i]
+    this_asteroid:update(dt)
+    this_asteroid:wrap(window)
+    for ship_i = #ships, 1, -1 do
+      local this_ship = ships[ship_i]
+      if this_asteroid:is_touching(this_ship) then
+        controllers[this_ship.controller_number] = nil
+        table.insert(explosions, this_ship:explode( ))
+        table.remove(ships, ship_i)
         if #ships < 1 then sfx_background_music:off() end
       end
     end
